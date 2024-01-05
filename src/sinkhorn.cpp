@@ -47,50 +47,6 @@ Rcpp::List reverse_sinkhorn_c(const arma::mat& result_H_row,
                               Rcpp::Named("D_hs_row") = D_hs_row);
 }
 
-Rcpp::List reverse_sinkhorn_c_2(const arma::mat& result_H_row,
-                              const arma::mat& result_W_col,
-                              const arma::mat& D_vs_row,
-                              const arma::mat& D_vs_col,
-                              int iterations) {
-    arma::mat H_row = result_H_row;
-    arma::mat W_col = result_W_col;
-    arma::mat temp_Mat;
-
-    arma::mat ones_like_W(W_col.n_rows, 1, arma::fill::ones);  // M*1
-    arma::mat ones_like_H(H_row.n_cols, 1, arma::fill::ones);  // N*1
-
-    arma::vec D_x_inv_vec(W_col.n_cols, arma::fill::zeros);
-    arma::vec D_z_vec(H_row.n_rows, arma::fill::zeros);
-
-    for (int i = iterations - 1; i >= 0; i--) {
-        // step back in row normalized matrices H
-        if (i != iterations - 1) {
-            temp_Mat = H_row * arma::diagmat(1 / D_vs_col.col(i));
-            arma::mat D_x_inv = arma::diagmat(1 / arma::sum(temp_Mat, 1)); // row normalizing matrix temp_Mat
-            H_row = D_x_inv * temp_Mat;
-        }
-        // step back in col normalized matrces W
-        if (i != 0) {
-            temp_Mat = arma::diagmat(1 / D_vs_row.col(i)) * W_col;
-            arma::mat D_z = arma::diagmat(1 / arma::sum(temp_Mat, 0));  // col normalizing matrix temp_Mat
-            W_col = temp_Mat * D_z;
-        }
-    }
-    arma::mat H_1 =  H_row;
-    arma::mat W_2 =  W_col;
-    // get Dh_0 through the NNLS
-    arma::mat D_h_0_inv_pred_vec = nnls_C__(H_1.t(), ones_like_H);
-    // get Dw_1 through the NNLS
-    arma::mat D_w_0_inv_pred_vec = nnls_C__(W_2, ones_like_W);
-
-    arma::mat H_0 = arma::diagmat(D_h_0_inv_pred_vec) * H_1;
-    arma::mat W_0 = arma::diagmat(1 / D_vs_row.col(0)) * W_2 * arma::diagmat(D_w_0_inv_pred_vec) * arma::diagmat(1/D_h_0_inv_pred_vec);
-
-    return Rcpp::List::create(Rcpp::Named("W") = W_0,
-                              Rcpp::Named("H") = H_0);
-}
-
-
 Rcpp::List sinkhorn_scale_c(const arma::mat& V, int iterations) {
     arma::mat D_vs_row(V.n_rows, iterations);
     arma::mat D_vs_col(V.n_cols, iterations);
