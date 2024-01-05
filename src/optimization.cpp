@@ -202,6 +202,7 @@ Rcpp::List derivative_stage2(const arma::mat& X,
         //der_X +=  coef_hinge_H * hinge_der_proportions_C__(new_X  * R, R);
 
         der_X =  coef_hinge_H * hinge_der_proportions_C__(new_X  * arma::diagmat(sqrt_Sigma)  * R, R) * arma::diagmat(1 / sqrt_Sigma);
+
         Rcpp::Rcout << "Der_X" << std::endl;
         Rcpp::Rcout << der_X << std::endl;
         der_X = correctByNorm(der_X) * mean_radius_X;
