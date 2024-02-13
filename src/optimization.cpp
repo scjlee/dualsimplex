@@ -177,9 +177,9 @@ Rcpp::List derivative_stage2(const arma::mat& X,
     new_Omega =  new_Omega * arma::diagmat(new_D_w_omega_sqrt);
 
 //    Rcpp::Rcout << "Original X tilda" << std::endl;
-    Rcpp::Rcout <<  new_X << std::endl;
+//    Rcpp::Rcout <<  new_X << std::endl;
 //    Rcpp::Rcout << "Original Omega tilda"  << std::endl;
-    Rcpp::Rcout << new_Omega << std::endl;
+//    Rcpp::Rcout << new_Omega << std::endl;
 
 
     arma::mat jump_X, jump_Omega;
