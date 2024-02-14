@@ -203,47 +203,47 @@ Rcpp::List derivative_stage2(const arma::mat& X,
 
         der_X =  coef_hinge_H * hinge_der_proportions_C__(new_X  * arma::diagmat(sqrt_Sigma)  * R, R) * arma::diagmat(1 / sqrt_Sigma);
 
-        Rcpp::Rcout << "Der_X" << std::endl;
-        Rcpp::Rcout << der_X << std::endl;
+//        Rcpp::Rcout << "Der_X" << std::endl;
+//        Rcpp::Rcout << der_X << std::endl;
         der_X = correctByNorm(der_X) * mean_radius_X;
-        Rcpp::Rcout << " corrected Der_X" << std::endl;
-        Rcpp::Rcout << der_X << std::endl;
+//        Rcpp::Rcout << " corrected Der_X" << std::endl;
+//        Rcpp::Rcout << der_X << std::endl;
 
         // Update X
         new_X = new_X - coef_der_X * der_X;
         // threshold for length of the new X
-        Rcpp::Rcout << "now X tilda is " << std::endl;
-        Rcpp::Rcout << new_X << std::endl;
+//        Rcpp::Rcout << "now X tilda is " << std::endl;
+//        Rcpp::Rcout << new_X << std::endl;
         new_Omega = arma::inv(new_X);
-        Rcpp::Rcout << "now Omega tilda as inv to X is" << std::endl;
-        Rcpp::Rcout << new_Omega << std::endl;
+//        Rcpp::Rcout << "now Omega tilda as inv to X is" << std::endl;
+//        Rcpp::Rcout << new_Omega << std::endl;
         new_D_w_x_sqrt =  new_X.col(0) * sqrt_Sigma.at(0) * sqrt(N);
         new_D_w_x = arma::pow(new_D_w_x_sqrt, 2);
-        Rcpp::Rcout << "based on step changed X D should be" << std::endl;
-        Rcpp::Rcout <<  new_D_w_x << std::endl;
-        Rcpp::Rcout << "Check that we got sqrt(N) in column" << std::endl;
-        Rcpp::Rcout << (new_X.col(0) / new_D_w_x_sqrt)* sqrt_Sigma.at(0) << std::endl;
+//        Rcpp::Rcout << "based on step changed X D should be" << std::endl;
+//        Rcpp::Rcout <<  new_D_w_x << std::endl;
+//        Rcpp::Rcout << "Check that we got sqrt(N) in column" << std::endl;
+//        Rcpp::Rcout << (new_X.col(0) / new_D_w_x_sqrt)* sqrt_Sigma.at(0) << std::endl;
 
         new_D_w_omega_sqrt =  new_Omega.row(0).as_col() * sqrt_Sigma.at(0) * sqrt(M);
         new_D_w_omega = arma::pow(new_D_w_omega_sqrt, 2);
-        Rcpp::Rcout << "based on inv X, Omega D should be" << std::endl;
-        Rcpp::Rcout <<  new_D_w_omega << std::endl;
-        Rcpp::Rcout << "Check that we got sqrt(M) in row" << std::endl;
-        Rcpp::Rcout << (new_Omega.row(0).as_col() / new_D_w_omega_sqrt)* sqrt_Sigma.at(0) << std::endl;
+//        Rcpp::Rcout << "based on inv X, Omega D should be" << std::endl;
+//        Rcpp::Rcout <<  new_D_w_omega << std::endl;
+//        Rcpp::Rcout << "Check that we got sqrt(M) in row" << std::endl;
+//        Rcpp::Rcout << (new_Omega.row(0).as_col() / new_D_w_omega_sqrt)* sqrt_Sigma.at(0) << std::endl;
 
         // correct D_w to make it the same matrix
         new_D_w = new_D_w_x_sqrt % new_D_w_omega_sqrt;
-        Rcpp::Rcout << "D_w then could be replaced with" << std::endl;
-        Rcpp::Rcout <<  new_D_w << std::endl;
+//        Rcpp::Rcout << "D_w then could be replaced with" << std::endl;
+//        Rcpp::Rcout <<  new_D_w << std::endl;
         new_D_w_sqrt = arma::sqrt(new_D_w);
         new_X = arma::diagmat(1/new_D_w_x_sqrt)* arma::diagmat(new_D_w_sqrt) * new_X;
         new_Omega = new_Omega * arma::diagmat(1/new_D_w_omega_sqrt) * arma::diagmat(new_D_w_sqrt);
         new_D_w_x_sqrt = new_D_w_sqrt;
         new_D_w_omega_sqrt = new_D_w_sqrt;
-        Rcpp::Rcout << "Check that we got sqrt(N) in column of X" << std::endl;
-        Rcpp::Rcout << (new_X.col(0) / new_D_w_x_sqrt)* sqrt_Sigma.at(0) << std::endl;
-        Rcpp::Rcout << "And for omega col  this D_w is  suitable" << std::endl;
-        Rcpp::Rcout << (new_Omega.row(0).as_col() / new_D_w_x_sqrt)* sqrt_Sigma.at(0) << std::endl;
+//        Rcpp::Rcout << "Check that we got sqrt(N) in column of X" << std::endl;
+//        Rcpp::Rcout << (new_X.col(0) / new_D_w_x_sqrt)* sqrt_Sigma.at(0) << std::endl;
+//        Rcpp::Rcout << "And for omega col  this D_w is  suitable" << std::endl;
+//        Rcpp::Rcout << (new_Omega.row(0).as_col() / new_D_w_x_sqrt)* sqrt_Sigma.at(0) << std::endl;
 
 
 
@@ -252,36 +252,36 @@ Rcpp::List derivative_stage2(const arma::mat& X,
 //        der_Omega += coef_hinge_W * hinge_der_basis_C__(S.t() * new_Omega, S);
 //        der_Omega += coef_hinge_W * hinge_der_basis_C__(S.t() * new_Omega, S);
         der_Omega = coef_hinge_W * arma::diagmat(1 / sqrt_Sigma) * hinge_der_basis_C__(S.t() * arma::diagmat(sqrt_Sigma) * new_Omega, S);
-        Rcpp::Rcout << "Der_Omega" << std::endl;
-        Rcpp::Rcout << der_Omega << std::endl;
+//        Rcpp::Rcout << "Der_Omega" << std::endl;
+//        Rcpp::Rcout << der_Omega << std::endl;
 
         der_Omega = correctByNorm(der_Omega) * mean_radius_Omega;
-        Rcpp::Rcout << " corrected der_Omega" << std::endl;
-        Rcpp::Rcout << der_Omega << std::endl;
+//        Rcpp::Rcout << " corrected der_Omega" << std::endl;
+//        Rcpp::Rcout << der_Omega << std::endl;
 
         new_Omega = new_Omega - coef_der_Omega * der_Omega;
         new_X = arma::inv(new_Omega);
-        Rcpp::Rcout << "now Omega tilda is " << std::endl;
-        Rcpp::Rcout << new_Omega << std::endl;
-        Rcpp::Rcout << "now X tilda as inv to Omega is" << std::endl;
-        Rcpp::Rcout << new_X << std::endl;
+//        Rcpp::Rcout << "now Omega tilda is " << std::endl;
+//        Rcpp::Rcout << new_Omega << std::endl;
+//        Rcpp::Rcout << "now X tilda as inv to Omega is" << std::endl;
+//        Rcpp::Rcout << new_X << std::endl;
 
        // Rcpp::Rcout << "going to get D_w from first column" << std::endl;
         new_D_w_omega_sqrt = new_Omega.row(0).as_col() * sqrt_Sigma.at(0) * sqrt(M);
         new_D_w_omega = arma::pow(new_D_w_omega_sqrt, 2);
 
-        Rcpp::Rcout << "based on step changed Omega D should be" << std::endl;
-        Rcpp::Rcout <<  new_D_w_omega << std::endl;
-        Rcpp::Rcout << "Check that we got sqrt(M) in row" << std::endl;
-        Rcpp::Rcout << (new_Omega.row(0).as_col() / new_D_w_omega_sqrt)* sqrt_Sigma.at(0) << std::endl;
+//        Rcpp::Rcout << "based on step changed Omega D should be" << std::endl;
+//        Rcpp::Rcout <<  new_D_w_omega << std::endl;
+//        Rcpp::Rcout << "Check that we got sqrt(M) in row" << std::endl;
+//        Rcpp::Rcout << (new_Omega.row(0).as_col() / new_D_w_omega_sqrt)* sqrt_Sigma.at(0) << std::endl;
         new_D_w_x_sqrt =  new_X.col(0) * sqrt_Sigma.at(0) * sqrt(N);
         new_D_w_x = arma::pow(new_D_w_x_sqrt, 2);
-        Rcpp::Rcout << "based on inv Omega, X D should be" << std::endl;
-        Rcpp::Rcout <<  new_D_w_x << std::endl;
-        Rcpp::Rcout << "Check that we got sqrt(N) in column" << std::endl;
-        Rcpp::Rcout << (new_X.col(0) / new_D_w_x_sqrt)* sqrt_Sigma.at(0) << std::endl;
-        Rcpp::Rcout << "But for omega this D_w is not suitable" << std::endl;
-        Rcpp::Rcout << (new_Omega.row(0).as_col() / new_D_w_x_sqrt)* sqrt_Sigma.at(0) << std::endl;
+//        Rcpp::Rcout << "based on inv Omega, X D should be" << std::endl;
+//        Rcpp::Rcout <<  new_D_w_x << std::endl;
+//        Rcpp::Rcout << "Check that we got sqrt(N) in column" << std::endl;
+//        Rcpp::Rcout << (new_X.col(0) / new_D_w_x_sqrt)* sqrt_Sigma.at(0) << std::endl;
+//        Rcpp::Rcout << "But for omega this D_w is not suitable" << std::endl;
+//        Rcpp::Rcout << (new_Omega.row(0).as_col() / new_D_w_x_sqrt)* sqrt_Sigma.at(0) << std::endl;
 
         // correct D_w to make it the same matrix
         new_D_w = new_D_w_x_sqrt % new_D_w_omega_sqrt;
@@ -290,10 +290,10 @@ Rcpp::List derivative_stage2(const arma::mat& X,
         new_Omega = new_Omega * arma::diagmat(1/new_D_w_omega_sqrt) * arma::diagmat(new_D_w_sqrt);
         new_D_w_x_sqrt = new_D_w_sqrt;
         new_D_w_omega_sqrt = new_D_w_sqrt;
-        Rcpp::Rcout << "Check that we got sqrt(N) in column of X" << std::endl;
-        Rcpp::Rcout << (new_X.col(0) / new_D_w_x_sqrt)* sqrt_Sigma.at(0) << std::endl;
-        Rcpp::Rcout << "And for omega col  this D_w is  suitable" << std::endl;
-        Rcpp::Rcout << (new_Omega.row(0).as_col() / new_D_w_x_sqrt)* sqrt_Sigma.at(0) << std::endl;
+//        Rcpp::Rcout << "Check that we got sqrt(N) in column of X" << std::endl;
+//        Rcpp::Rcout << (new_X.col(0) / new_D_w_x_sqrt)* sqrt_Sigma.at(0) << std::endl;
+//        Rcpp::Rcout << "And for omega col  this D_w is  suitable" << std::endl;
+//        Rcpp::Rcout << (new_Omega.row(0).as_col() / new_D_w_x_sqrt)* sqrt_Sigma.at(0) << std::endl;
 
 //        Rcpp::Rcout << "Took first value " << std::endl;
 //        Rcpp::Rcout << new_D_w_x << std::endl;
@@ -304,11 +304,11 @@ Rcpp::List derivative_stage2(const arma::mat& X,
 
         // result X and omega
         final_X = arma::diagmat(1/new_D_w_x_sqrt) * new_X * arma::diagmat(sqrt_Sigma);
-        Rcpp::Rcout << "now final X is " << std::endl;
-        Rcpp::Rcout << final_X << std::endl;
+//        Rcpp::Rcout << "now final X is " << std::endl;
+//        Rcpp::Rcout << final_X << std::endl;
         final_Omega = arma::diagmat(sqrt_Sigma)* new_Omega * arma::diagmat(1/new_D_w_omega_sqrt);
-        Rcpp::Rcout << "now final Omega is " << std::endl;
-        Rcpp::Rcout << final_Omega << std::endl;
+//        Rcpp::Rcout << "now final Omega is " << std::endl;
+//        Rcpp::Rcout << final_Omega << std::endl;
 
         Rcpp::List current_errors = calcErrors(final_X,
                                                final_Omega,
