@@ -155,31 +155,31 @@ Rcpp::List derivative_stage2(const arma::mat& X,
     arma::mat new_D_w_omega = D_w;
     arma::mat new_D_w_omega_sqrt = arma::sqrt(new_D_w_omega);
     arma::mat new_D_h = new_D_w * (N / M);
-    Rcpp::Rcout << "sqrt N" << std::endl;
-    Rcpp::Rcout <<  sqrt(N) << std::endl;
-    Rcpp::Rcout << "sqrt M"  << std::endl;
-    Rcpp::Rcout << sqrt(M) << std::endl;
+//    Rcpp::Rcout << "sqrt N" << std::endl;
+//    Rcpp::Rcout <<  sqrt(N) << std::endl;
+//    Rcpp::Rcout << "sqrt M"  << std::endl;
+//    Rcpp::Rcout << sqrt(M) << std::endl;
 
     arma::vec Sigma = arma::diagvec(SVRt);
     arma::vec sqrt_Sigma = arma::sqrt(Sigma);
     arma::vec sqrt_D_w = arma::sqrt(D_w);
-    Rcpp::Rcout << "sqrt Sigma" << std::endl;
-    Rcpp::Rcout <<  sqrt_Sigma << std::endl;
-    Rcpp::Rcout << "sqrt_D_W"  << std::endl;
-    Rcpp::Rcout << sqrt_D_w << std::endl;
+//    Rcpp::Rcout << "sqrt Sigma" << std::endl;
+//    Rcpp::Rcout <<  sqrt_Sigma << std::endl;
+//    Rcpp::Rcout << "sqrt_D_W"  << std::endl;
+//    Rcpp::Rcout << sqrt_D_w << std::endl;
 
-    Rcpp::Rcout << "Original X" << std::endl;
-    Rcpp::Rcout <<  new_X << std::endl;
-    Rcpp::Rcout << "Original Omega"  << std::endl;
-    Rcpp::Rcout << new_Omega << std::endl;
+//    Rcpp::Rcout << "Original X" << std::endl;
+//    Rcpp::Rcout <<  new_X << std::endl;
+//    Rcpp::Rcout << "Original Omega"  << std::endl;
+//    Rcpp::Rcout << new_Omega << std::endl;
 
     new_X =  arma::diagmat(new_D_w_x_sqrt) * new_X * arma::diagmat(1 / sqrt_Sigma);
     new_Omega =  arma::diagmat(1 / sqrt_Sigma) *  new_Omega * arma::diagmat(new_D_w_omega_sqrt);
 
-    Rcpp::Rcout << "Original X tilda" << std::endl;
-    Rcpp::Rcout <<  new_X << std::endl;
-    Rcpp::Rcout << "Original Omega tilda"  << std::endl;
-    Rcpp::Rcout << new_Omega << std::endl;
+//    Rcpp::Rcout << "Original X tilda" << std::endl;
+//    Rcpp::Rcout <<  new_X << std::endl;
+//    Rcpp::Rcout << "Original Omega tilda"  << std::endl;
+//    Rcpp::Rcout << new_Omega << std::endl;
 
 
     arma::mat jump_X, jump_Omega;
@@ -193,7 +193,7 @@ Rcpp::List derivative_stage2(const arma::mat& X,
     arma::mat der_X, der_Omega;
 
 
-    Rcpp::Rcout << "-----iterations start----" << std::endl;
+//    Rcpp::Rcout << "-----iterations start----" << std::endl;
     for (int itr_ = 0; itr_ < iterations; itr_++) {
         bool has_jump_X = false;
         bool has_jump_Omega = false;
